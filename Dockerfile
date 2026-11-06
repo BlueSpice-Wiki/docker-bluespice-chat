@@ -19,6 +19,9 @@ COPY root-fs/* ./
 COPY --from=builder /tmp/chat ./chat
 RUN chmod +x ./chat/start.sh
 
+# Build timestamp (UTC, YmdHis)
+RUN mkdir -p /image && date -u +%Y%m%d%H%M%S > /image/BUILDINFO
+
 HEALTHCHECK --start-period=10s --retries=3 --interval=1m --timeout=20s \
     CMD curl --silent --output /dev/null http://localhost:3002 || exit 1
 
