@@ -17,4 +17,8 @@ COPY root-fs/* ./
 COPY --from=builder /tmp/chat ./chat
 RUN chmod +x ./chat/start.sh
 
+# Build info: value of build arg BUILDINFO, `-` if not set
+ARG BUILDINFO
+RUN mkdir -p /image && echo "${BUILDINFO:--}" > /image/BUILDINFO
+
 CMD ["/app/bin/entrypoint"]
