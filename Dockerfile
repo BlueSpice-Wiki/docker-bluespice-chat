@@ -17,4 +17,7 @@ COPY root-fs/* ./
 COPY --from=builder /tmp/chat ./chat
 RUN chmod +x ./chat/start.sh
 
+# Build timestamp (UTC, YmdHis)
+RUN mkdir -p /image && date -u +%Y%m%d%H%M%S > /image/BUILDINFO
+
 CMD ["/app/bin/entrypoint"]
