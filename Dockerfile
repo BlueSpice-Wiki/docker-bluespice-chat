@@ -17,8 +17,8 @@ COPY root-fs/* ./
 COPY --from=builder /tmp/chat ./chat
 RUN chmod +x ./chat/start.sh
 
-# Build info: value of build arg BUILDINFO, falls back to the UTC build timestamp (YmdHis)
+# Build info: value of build arg BUILDINFO, `-` if not set
 ARG BUILDINFO
-RUN mkdir -p /image && echo "${BUILDINFO:-$(date -u +%Y%m%d%H%M%S)}" > /image/BUILDINFO
+RUN mkdir -p /image && echo "${BUILDINFO:--}" > /image/BUILDINFO
 
 CMD ["/app/bin/entrypoint"]
