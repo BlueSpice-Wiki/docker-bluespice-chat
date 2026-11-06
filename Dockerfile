@@ -19,6 +19,10 @@ COPY root-fs/* ./
 COPY --from=builder /tmp/chat ./chat
 RUN chmod +x ./chat/start.sh
 
+# Build info: value of build arg BUILDINFO, `-` if not set
+ARG BUILDINFO
+RUN mkdir -p /image && echo "${BUILDINFO:--}" > /image/BUILDINFO
+
 HEALTHCHECK --start-period=10s --retries=3 --interval=1m --timeout=20s \
     CMD curl --silent --output /dev/null http://localhost:3002 || exit 1
 
